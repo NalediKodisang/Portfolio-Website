@@ -131,6 +131,15 @@
             color: white;
         }
 
+        .btn-tertiary {
+            background: linear-gradient(to right, var(--secondary), #5d9cec);
+            color: white;
+        }
+
+        .btn-tertiary:hover {
+            background: linear-gradient(to right, #5d9cec, var(--secondary));
+        }
+
         .section-title {
             text-align: center;
             margin-bottom: 4rem;
@@ -478,6 +487,84 @@
             margin-top: 1.5rem;
         }
 
+        .project-links .btn {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Screenshots Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--darker);
+            border-radius: var(--border-radius);
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            padding: 2rem;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            z-index: 10;
+        }
+
+        .modal-close:hover {
+            background: var(--primary-dark);
+        }
+
+        .screenshots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .screenshot-item {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+
+        .screenshot-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .screenshot-item:hover img {
+            transform: scale(1.05);
+        }
+
         /* Contact Section */
         .contact {
             background-color: var(--darker);
@@ -632,6 +719,10 @@
             .contact-container {
                 flex-direction: column;
             }
+            
+            .screenshots-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         @media (max-width: 768px) {
@@ -669,6 +760,15 @@
             .projects-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .project-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .screenshots-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 576px) {
@@ -686,6 +786,10 @@
             
             .hero-img-container {
                 height: 300px;
+            }
+            
+            .modal-content {
+                padding: 1.5rem;
             }
         }
     </style>
@@ -721,7 +825,6 @@
                         <a href="#projects" class="btn">View My Work</a>
                         <a href="https://github.com/NalediKodisang" target="_blank" class="btn btn-secondary">Visit My GitHub</a>
                     </div>
-                   
                 </div>
                 <div class="hero-image">
                     <div class="hero-img-container">
@@ -808,6 +911,18 @@
             </div>
         </div>
     </section>
+
+    <!-- Screenshots Modal -->
+    <div class="modal-overlay" id="screenshotsModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModal">&times;</button>
+            <h3>GIG Connect App Screenshots</h3>
+            <p>Here are screenshots of the GIG Connect mobile application showing the user interface and features:</p>
+            <div class="screenshots-grid" id="screenshotsGrid">
+                <!-- Screenshots will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
 
     <!-- Contact Section -->
     <section class="contact" id="contact">
@@ -917,7 +1032,7 @@
             }
         });
         
-        // Project data - KEEPING YOUR ORIGINAL PROJECTS
+        // Project data with Live Demo and Screenshots
         const projects = [
             {
                 id: 1,
@@ -926,26 +1041,56 @@
                 tags: ["JavaScript", "HTML", "CSS", "Python"],
                 category: "web",
                 github: "https://github.com/NalediKodisang/Job-Application-Tracker",
+                demo: "https://naledikodisang.github.io/Job-Application-Tracker/ ", //  demo link
                 image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
             },
             {
                 id: 2,
                 title: "GIG Connect",
                 description: "A community-based mobile application connecting unemployed youth with local gig opportunities.",
-                tags: [ "Flutter", "UI/UX"],
+                tags: ["Flutter", "UI/UX"],
                 category: "mobile",
                 github: "https://github.com/NalediKodisang/gig-connect",
-               image: "https://images.unsplash.com/photo-1545235617-9465d2a55698?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+                image: "https://images.unsplash.com/photo-1545235617-9465d2a55698?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                hasScreenshots: true,
+                screenshots: [
+                    
+                    "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                    " images/"
+                ]
             },
             {
                 id: 3,
                 title: "Portfolio Website",
-                description: "A collaborative task management application with real-time updates.",
+                description: "A modern, responsive portfolio website showcasing projects, skills, and contact information.",
                 tags: ["HTML", "CSS", "JavaScript"],
                 category: "web",
-                github: "https://github.com",
+                github: "https://github.com/NalediKodisang/portfolio",
                 image: "https://images.unsplash.com/photo-1555099962-4199c345e5dd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
             },
+        ];
+        
+        // Screenshots data for GIG Connect
+        // Local screenshots live in the folder: "gig connect screenshots"
+        const localScreenshotsFolder = 'gig connect screenshots/';
+        const gigConnectScreenshots = [
+            'WhatsApp Image 2026-02-10 at 15.46.47 (1).jpeg',
+            'WhatsApp Image 2026-02-10 at 15.46.47 (2).jpeg',
+            'WhatsApp Image 2026-02-10 at 15.46.47 (3).jpeg',
+            'WhatsApp Image 2026-02-10 at 15.46.47 (4).jpeg',
+            'WhatsApp Image 2026-02-10 at 15.46.47.jpeg',
+            'WhatsApp Image 2026-02-10 at 15.46.48 (1).jpeg',
+            'WhatsApp Image 2026-02-10 at 15.46.48 (2).jpeg',
+            'WhatsApp Image 2026-02-10 at 15.46.48 (3).jpeg',
+            'WhatsApp Image 2026-02-10 at 15.46.48.jpeg',
+            'WhatsApp Image 2026-02-10 at 15.46.49 (1).jpeg',
+            'WhatsApp Image 2026-02-10 at 15.46.49 (2).jpeg',
+            'WhatsApp Image 2026-02-10 at 15.46.49 (3).jpeg',
+            'WhatsApp Image 2026-02-10 at 15.46.49 (4).jpeg',
+            'WhatsApp Image 2026-02-10 at 15.46.49.jpeg',
+            'WhatsApp Image 2026-02-10 at 15.46.50.jpeg'
         ];
         
         // Render projects
@@ -963,6 +1108,18 @@
                 projectCard.className = 'project-card';
                 projectCard.setAttribute('data-category', project.category);
                 
+                let buttonsHTML = `<a href="${project.github}" target="_blank" class="btn btn-secondary">GitHub</a>`;
+                
+                // Add Live Demo button for Job Tracker
+                if (project.id === 1 && project.demo) {
+                    buttonsHTML += `<a href="${project.demo}" target="_blank" class="btn btn-tertiary">Live Demo</a>`;
+                }
+                
+                // Add Screenshots button for GIG Connect
+                if (project.id === 2 && project.hasScreenshots) {
+                    buttonsHTML += `<button class="btn btn-tertiary view-screenshots" data-project-id="2">View Screenshots</button>`;
+                }
+                
                 projectCard.innerHTML = `
                     <div class="project-img">
                         <img src="${project.image}" alt="${project.title}">
@@ -974,12 +1131,19 @@
                             ${project.tags.map(tag => `<span class="project-tag">${tag}</span>`).join('')}
                         </div>
                         <div class="project-links">
-                            <a href="${project.github}" target="_blank" class="btn btn-secondary">GitHub</a>
+                            ${buttonsHTML}
                         </div>
                     </div>
                 `;
                 
                 projectsGrid.appendChild(projectCard);
+            });
+            
+            // Add event listeners to screenshots buttons
+            document.querySelectorAll('.view-screenshots').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    openScreenshotsModal();
+                });
             });
         }
         
@@ -1000,26 +1164,55 @@
             });
         });
         
-        // Animated counter for stats
-        function animateCounter(elementId, targetValue, suffix = '') {
-            const element = document.getElementById(elementId);
-            const duration = 2000; // 2 seconds
-            const stepTime = 50; // update every 50ms
-            const steps = duration / stepTime;
-            const increment = targetValue / steps;
-            let currentValue = 0;
-            
-            const timer = setInterval(() => {
-                currentValue += increment;
-                if (currentValue >= targetValue) {
-                    element.textContent = targetValue + suffix;
-                    clearInterval(timer);
+        // Modal functionality
+        const screenshotsModal = document.getElementById('screenshotsModal');
+        const closeModal = document.getElementById('closeModal');
+        const screenshotsGrid = document.getElementById('screenshotsGrid');
+        
+        function openScreenshotsModal() {
+            screenshotsGrid.innerHTML = '';
+
+            gigConnectScreenshots.forEach((screenshot, index) => {
+                // Determine source: if it already looks like a URL, use it; otherwise build local path and encode it
+                let src = '';
+                if (!screenshot) return; // skip empty entries
+                if (/^https?:\/\//i.test(screenshot)) {
+                    src = screenshot;
                 } else {
-                    element.textContent = Math.floor(currentValue) + suffix;
+                    src = encodeURI(localScreenshotsFolder + screenshot);
                 }
-            }, stepTime);
+
+                const screenshotItem = document.createElement('div');
+                screenshotItem.className = 'screenshot-item';
+                screenshotItem.innerHTML = `
+                    <img src="${src}" alt="GIG Connect Screenshot ${index + 1}">
+                `;
+                screenshotsGrid.appendChild(screenshotItem);
+            });
+
+            screenshotsModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
-       
+        
+        function closeScreenshotsModal() {
+            screenshotsModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        closeModal.addEventListener('click', closeScreenshotsModal);
+        
+        screenshotsModal.addEventListener('click', (e) => {
+            if (e.target === screenshotsModal) {
+                closeScreenshotsModal();
+            }
+        });
+        
+        // Escape key to close modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && screenshotsModal.classList.contains('active')) {
+                closeScreenshotsModal();
+            }
+        });
         
         // Resume download functionality
         const resumeDownloadBtn = document.getElementById('resumeDownload');

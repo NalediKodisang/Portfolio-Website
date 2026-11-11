@@ -1195,14 +1195,37 @@
                         </div>
                     </div>
                     
-                    <!-- Resume Download Section -->
-                    <div class="resume-download">
-                        <h3>Download My Resume</h3>
-                        <p>Get a copy of my resume to learn more about my experience, education, and qualifications.</p>
-                        <a href="#" class="btn resume-btn" id="resumeDownload">
-                            <i class="fas fa-download"></i> Download Resume (PDF)
-                        </a>
-                    </div>
+                  
+        <!-- Resume Download Section -->
+            <div class="resume-download">
+                <h3>Download My Resume</h3>
+
+                    <p>
+                        Get a copy of my resume to learn more about my
+                        experience, education, and qualifications.
+                    </p>
+
+        <!--
+        CV DOWNLOAD BUTTON
+
+        The PDF is stored in the same folder as index.html.
+        The href points directly to the PDF file.
+        The download attribute tells the browser to download it
+        instead of simply navigating to the PDF.
+        -->
+            <a
+                href="./Naledi_Kodisang_CV.pdf"
+                class="btn resume-btn"
+                id="resumeDownload"
+                download="Naledi_Kodisang_CV.pdf"
+                type="application/pdf"
+                aria-label="Download Naledi Kodisang CV"
+            >
+                <i class="fas fa-download"></i>
+                    Download Resume (PDF)
+            </a>
+            </div>
+
                 </div>
                 <div class="contact-form">
                     <form id="contactForm">
@@ -1482,13 +1505,7 @@
             }
         });
         
-        // Resume download functionality
-        const resumeDownloadBtn = document.getElementById('resumeDownload');
-        resumeDownloadBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            // In a real scenario, this would link to your actual resume PDF
-            alert('Resume download would start. To make this functional, replace the href="#" with a link to your actual resume PDF file.');
-        });
+       
         
         // Contact form submission
         const contactForm = document.getElementById('contactForm');
